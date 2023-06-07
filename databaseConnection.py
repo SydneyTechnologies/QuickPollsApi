@@ -8,7 +8,7 @@ SQLALCHEMY_DATABASE_URL = "sqlite:///.sql_app.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 # we connect to our local sql database that is hosted on the server and tell sql not to
 # check if it is the same thread that is communication with the database
-localSession = sessionmaker(autoCommit=False, autoflush=False, bind=engine)
+localSession = sessionmaker(autocommit = False,autoflush=False, bind=engine)
 # this is the point of connection to the database it is an instance of the database 
 BaseTable = declarative_base()
 # the base class that allows for creating tables in a database 

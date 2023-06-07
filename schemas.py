@@ -30,6 +30,7 @@ class Options(BaseModel):
     votes: List[Vote]
     class Config:
         orm_mode = True
+        arbitrary_types_allowed = True
 
 
 # POLLS SCHEMA 
@@ -51,15 +52,26 @@ class Poll(BasePoll):
     
     class Config:
         orm_mode = True
+        arbitrary_types_allowed = True
 
 # USER SCHEMAS
-class BaseUser():
+class BaseUser(BaseModel):
     first_name : str
     last_name: str
     email: str 
 
 class CreateUser(BaseUser):
     password: str
+
+    class Config:
+        schema_extra={
+            "example":{
+            "first_name": "John",
+            "last_name":"Doe",
+            "email":"JohnDoe@gmail.com",
+            "password": "some password"
+            }
+        }
 
 class User(BaseUser):
     id: str
@@ -69,6 +81,8 @@ class User(BaseUser):
     
     class Config:
         orm_mode = True
+        arbitrary_types_allowed = True
+
 
 
 
