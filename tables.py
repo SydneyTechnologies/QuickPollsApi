@@ -16,11 +16,11 @@ class User(BaseTable):
     last_name = Column(String, nullable=False, default="Idundun")
     created_at = Column(DateTime, nullable=False, default=datetime.now)
     email = Column(String, unique=True, index=True, nullable=False)
-    hashed_password = Column(String, nullable=False)
+    password = Column(String, nullable=False)
 
     #relationships
-    polls = relationship("Polls", back_populates="owner")
-    votes = relationship("Votes", back_populates="voter")
+    polls = relationship("Poll", back_populates="owner")
+    votes = relationship("Vote", back_populates="voter")
 
     @property
     def full_name(self):
@@ -39,11 +39,11 @@ class Poll(BaseTable):
 
     # Relationships 
     owner_id = Column(String, ForeignKey("Users.id"))
-    owner = relationship("Users", back_populates="polls")
+    owner = relationship("User", back_populates="polls")
 
 
-    options = relationship("Options", back_populates="poll")
-    votes = relationship("Votes", back_populates="poll")
+    options = relationship("Option", back_populates="poll")
+    votes = relationship("Vote", back_populates="poll")
 
 
 class Option(BaseTable):
@@ -54,9 +54,9 @@ class Option(BaseTable):
 
     #Relationships
     pollId = Column(String, ForeignKey("Polls.id"))
-    poll = relationship("Polls", back_populates="options")
+    poll = relationship("Poll", back_populates="options")
 
-    votes = relationship("Votes", back_populates="option")
+    votes = relationship("Vote", back_populates="option")
 
 
 class Vote(BaseTable):
@@ -66,11 +66,11 @@ class Vote(BaseTable):
 
     #Relationships
     voterId = Column(String, ForeignKey("Users.id"))
-    voter = relationship("Users", back_populates="votes")
+    voter = relationship("User", back_populates="votes")
 
     pollId = Column(String, ForeignKey("Polls.id"))
-    poll = relationship("Polls", back_populates="votes")
+    poll = relationship("Poll", back_populates="votes")
 
     optionId = Column(String, ForeignKey("Options.id"))
-    option = relationship("Options", back_populates="Options")
+    option = relationship("Option", back_populates="votes")
 

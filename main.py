@@ -22,4 +22,7 @@ def get_db():
 def createUser(userData: CreateUser, db: Session = Depends(get_db)):
     hashed_password = hashPassword(userData.password)
     userData.password = hashed_password
-    return userData
+    print({**userData.dict()})
+    new_user = tables.User(**userData.dict())
+    print(new_user)
+    return new_user
