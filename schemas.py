@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import List
+from datetime import datetime
 
 # VOTE SCHEMAS
 class BaseVote(BaseModel):
@@ -46,7 +47,7 @@ class CreatePoll(BasePoll):
 class Poll(BasePoll):
     id: str
     owner_id: str
-    created_at: str
+    created_at: datetime
     options = List[Options]
     votes = List[Vote]
     
@@ -77,7 +78,7 @@ class User(BaseUser):
     id: str
     polls: List[Poll]
     votes: List[Vote]
-    created_at: str
+    created_at: datetime
     
     class Config:
         orm_mode = True
