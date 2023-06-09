@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from typing import List
 from datetime import datetime
 
 # VOTE SCHEMAS
@@ -16,6 +15,8 @@ class Vote(BaseVote):
     id: str
     class Config:
         orm_mode = True
+        arbitrary_types_allowed = True
+
 
 
 # OPTION SCHEMAS
@@ -28,7 +29,7 @@ class CreateOption(BaseOption):
     pass
 
 class Options(BaseModel):
-    votes: List[Vote]
+    votes: list[Vote]
     class Config:
         orm_mode = True
         arbitrary_types_allowed = True
@@ -46,10 +47,10 @@ class CreatePoll(BasePoll):
 
 class Poll(BasePoll):
     id: str
-    owner_id: str
+    owner_id:str
     created_at: datetime
-    options = List[Options]
-    votes = List[Vote]
+    options = list['Options']
+    votes = list['Vote']
     
     class Config:
         orm_mode = True
@@ -76,14 +77,13 @@ class CreateUser(BaseUser):
 
 class User(BaseUser):
     id: str
-    polls: List[Poll]
-    votes: List[Vote]
+    polls: list['Poll']
+    votes: list['Vote']
     created_at: datetime
     
     class Config:
         orm_mode = True
         arbitrary_types_allowed = True
-
 
 
 

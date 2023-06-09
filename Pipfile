@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 fastapi = {extras = ["all"], version = "*"}
 bcrypt = "*"
+jose = "*"
+python-jose = "*"
+python-multipart = "*"
 
 [dev-packages]
 
