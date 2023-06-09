@@ -28,9 +28,15 @@ def login(loginData: OAuth2PasswordRequestForm = Depends(OAuth2PasswordRequestFo
     return HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
-@router.put("/users", tags=["User"], summary="Update general User Information")
-def updateUserInfo():
-    return "Update User Information"
+@router.put("/users", tags=["User"], summary="Update general user Information")
+def updateUserInfo(userInfo: schemas.UpdateUser, db = Depends(utils.get_db), user = Depends(utils.get_current_user)):
+    print(userInfo)
+    updatedUser = crud.update_user(user=user, userInfo=userInfo, db=db)
+
+    if updatedUser: 
+        return updatedUser
+
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
 @router.get("/users", tags=["User"], summary="List all the users in the database")
 def listUsers(db = Depends(utils.get_db)):
@@ -41,7 +47,7 @@ def listUsers(db = Depends(utils.get_db)):
     else: 
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
-@router.delete("/users", tags=["User"], summary="Delete a specific user by email")
+@router.delete("/users/{email}", tags=["User"], summary="Delete a specific user by email")
 def deleteUser(email: str, db = Depends(utils.get_db)):
     user = crud.get_user(email=email, db=db)
     if user: 

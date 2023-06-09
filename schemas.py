@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from datetime import datetime
 
 # VOTE SCHEMAS
@@ -60,7 +60,13 @@ class Poll(BasePoll):
 class BaseUser(BaseModel):
     first_name : str
     last_name: str
-    email: str 
+    email: EmailStr 
+
+class UpdateUser(BaseUser):
+    first_name : str | None = None
+    last_name: str | None = None
+    email: str | None = None
+
 
 class CreateUser(BaseUser):
     password: str
