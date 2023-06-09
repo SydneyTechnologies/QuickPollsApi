@@ -5,11 +5,11 @@ import tables
 import schemas
 
 
-def get_user(email:str, db: Session):
+def get_user(email:str, db: Session)->tables.User:
     user = db.query(tables.User).filter(tables.User.email == email).first()
     return user
 
-def delete_from_db(dbObject: any, db: Session ):
+def delete_from_db(dbObject: any, db: Session )-> bool:
     if dbObject:
         db.delete(dbObject)
         db.commit()
@@ -18,7 +18,7 @@ def delete_from_db(dbObject: any, db: Session ):
     return False
                 
 
-def add_to_db(dbObject: any, db: Session):
+def add_to_db(dbObject: any, db: Session)->tables.BaseTable:
     if dbObject:
         db.add(dbObject)
         db.commit()
@@ -27,6 +27,6 @@ def add_to_db(dbObject: any, db: Session):
 
 
 
-def get_db_objects(object: tables.BaseTable,  db: Session):
+def get_db_objects(object: tables.BaseTable,  db: Session)->list[tables.BaseTable]:
     results = db.query(object).all()
     return results
