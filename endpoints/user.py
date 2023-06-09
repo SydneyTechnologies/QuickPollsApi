@@ -30,7 +30,7 @@ def login(loginData: OAuth2PasswordRequestForm = Depends(OAuth2PasswordRequestFo
 
 @router.put("/users", tags=["User"], summary="Update general user Information")
 def updateUserInfo(userInfo: schemas.UpdateUser, db = Depends(utils.get_db), user = Depends(utils.get_current_user)):
-    print(userInfo)
+    userInfo.validate()
     updatedUser = crud.update_user(user=user, userInfo=userInfo, db=db)
 
     if updatedUser: 
