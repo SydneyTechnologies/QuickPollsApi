@@ -44,9 +44,14 @@ class BasePoll(BaseModel):
 
 
 class UpdatePoll(BasePoll):
+    question: str | None = None
+    private: bool | None = None
+    protected: bool | None = None
+    closed: bool | None = None
     pass 
 
 class CreatePoll(BasePoll):
+    options: list[str] =[]
     pass
 
 class Poll(BasePoll):

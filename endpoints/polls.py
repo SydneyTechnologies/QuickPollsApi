@@ -9,7 +9,7 @@ def createPoll(pollData: schemas.CreatePoll, user: tables.User = Depends(utils.g
     poll = pollData.copy()
     poll = poll.dict()
     poll.update({"owner_id": user.id})
-    print(poll)
+    print(poll.pop("options"))
     new_poll = tables.Poll(**poll)
     new_poll = crud.add_to_db(new_poll, db)
     if new_poll:
