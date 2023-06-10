@@ -42,12 +42,16 @@ class BasePoll(BaseModel):
     protected: bool 
     closed: bool 
 
+
+class UpdatePoll(BasePoll):
+    pass 
+
 class CreatePoll(BasePoll):
     pass
 
 class Poll(BasePoll):
     id: str
-    owner_id:str
+    owner_id:str | None =None
     created_at: datetime
     options = list['Options']
     votes = list['Vote']
