@@ -27,15 +27,14 @@ def update_user(user: tables.User, userData: schemas.UpdateUser, db: Session):
         db.refresh(user)
     return user
 
-def update_poll(pollId: str, pollData: schemas.UpdateUser, db: Session):
+def update_poll(poll: tables.Poll, pollData: schemas.UpdateUser, db: Session):
     # first remove non values 
     updates = {}
     for key, value in pollData.dict().items():
         if value != None:
             updates[key] = value
 
-    poll = get_poll(pollId, db)
-    update_query = update(tables.Poll).where(tables.Poll.id == pollId).values(updates)
+    update_query = update(tables.Poll).where(tables.Poll.id == poll.id).values(updates)
     db.execute(update_query)
     db.commit()
     db.refresh(poll)

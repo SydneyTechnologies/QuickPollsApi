@@ -21,10 +21,8 @@ def updatePoll(pollId:str, pollData : schemas.UpdatePoll, user = Depends(utils.g
     if poll: 
         if poll.owner != user:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You don't own this poll")
-        
-
-
-    return "Hi"
+        updatedPoll = crud.update_poll(poll, pollData, db)
+    return schemas.Poll.from_orm(updatedPoll)
 
 
 @router.delete("/polls/{pollId}", tags=["Poll"], summary="Delete poll by pollId")
