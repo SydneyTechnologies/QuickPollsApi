@@ -9,10 +9,16 @@ def createPoll(pollData: schemas.CreatePoll, user: tables.User = Depends(utils.g
     poll = pollData.copy()
     poll = poll.dict()
     poll.update({"owner_id": user.id})
-    print(poll.pop("options"))
+    options_list = poll.pop("options")
     new_poll = tables.Poll(**poll)
-    new_poll = crud.add_to_db(new_poll, db)
+    new_poll: tables.Poll = crud.add_to_db(new_poll, db)
     if new_poll:
+        if options_list: 
+            for option in options_list: 
+                print(option)
+                new_option = schemas.CreateOption(value=option, pollId=new_poll.id)
+                crud.add_to_db(tables.Option(**new_option.dict()), db)
+
         return schemas.Poll.from_orm(new_poll)
     
 @router.put("/polls/{pollId}", tags=["Poll"], summary="Update poll by pollId")

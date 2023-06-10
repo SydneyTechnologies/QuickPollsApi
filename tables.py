@@ -1,6 +1,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, UUID, DateTime
 from sqlalchemy.orm import relationship
-from databaseConnection import BaseTable
+from sqlalchemy import func
+from databaseConnection import BaseTable, localSession
 from datetime import datetime
 import uuid
 
@@ -58,6 +59,11 @@ class Option(BaseTable):
 
     votes = relationship("Vote", back_populates="option")
 
+    @property
+    def vote_count(self)->int:
+        db = localSession()
+        return db.query(func.count(Vote.id)).scalar()
+
 
 class Vote(BaseTable):
     __tablename__ = "Votes"
@@ -73,4 +79,6 @@ class Vote(BaseTable):
 
     optionId = Column(String, ForeignKey("Options.id"))
     option = relationship("Option", back_populates="votes")
+
+    
 

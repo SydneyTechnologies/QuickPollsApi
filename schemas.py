@@ -28,8 +28,9 @@ class CreateOption(BaseOption):
     pollId: str
     pass
 
-class Options(BaseModel):
-    votes: list[Vote]
+class Options(BaseOption):
+    vote_count: int
+    # votes: list[Vote]
     class Config:
         orm_mode = True
         arbitrary_types_allowed = True
@@ -58,8 +59,8 @@ class Poll(BasePoll):
     id: str
     owner_id:str | None =None
     created_at: datetime
-    options = list['Options']
-    votes = list['Vote']
+    options:list['Options'] = []
+    votes:list['Vote'] = []
     
     class Config:
         orm_mode = True
