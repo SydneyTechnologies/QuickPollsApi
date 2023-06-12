@@ -10,15 +10,15 @@ def get_user(email:str, db: Session)->tables.User:
     user = db.query(tables.User).filter(tables.User.email == email).first()
     return user
 
-def get_poll(pollId:str, db: Session)->tables.User:
+def get_poll(pollId:str, db: Session)->tables.Poll:
     poll = db.query(tables.Poll).filter(tables.Poll.id == pollId).first()
     return poll
 
-def get_option(optionId:str, db: Session)->tables.User:
+def get_option(optionId:str, db: Session)->tables.Option:
     option = db.query(tables.Option).filter(tables.Option.id == optionId).first()
     return option
 
-def get_vote(voteId:str, db: Session)->tables.User:
+def get_vote(voteId:str, db: Session)->tables.Vote:
     vote = db.query(tables.Vote).filter(tables.Vote.id == voteId).first()
     return vote
 
