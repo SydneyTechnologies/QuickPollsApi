@@ -32,8 +32,14 @@ def updatePoll(pollId:str, pollData : schemas.UpdatePoll, user = Depends(utils.g
 
 
 @router.delete("/polls/{pollId}", tags=["Poll"], summary="Delete poll by pollId")
-def deletePoll(pollId:str):
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+def deletePoll(pollId:str, db = Depends(utils.get_db)):
+    poll = crud.get_poll(pollId=pollId, db=db)
+    if poll: 
+        result = crud.delete_from_db(poll,db=db)
+        return result
+    else:
+        HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Something went wrong")
 
 @router.get("/polls",  tags=["Poll"], summary="List all the polls in the database")
 def listPolls(db = Depends(utils.get_db)):

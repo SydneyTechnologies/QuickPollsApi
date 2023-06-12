@@ -14,6 +14,14 @@ def get_poll(pollId:str, db: Session)->tables.User:
     poll = db.query(tables.Poll).filter(tables.Poll.id == pollId).first()
     return poll
 
+def get_option(optionId:str, db: Session)->tables.User:
+    option = db.query(tables.Option).filter(tables.Option.id == optionId).first()
+    return option
+
+def get_vote(voteId:str, db: Session)->tables.User:
+    vote = db.query(tables.Vote).filter(tables.Vote.id == voteId).first()
+    return vote
+
 def update_user(user: tables.User, userData: schemas.UpdateUser, db: Session):
     # first remove non values 
     updates = {}
