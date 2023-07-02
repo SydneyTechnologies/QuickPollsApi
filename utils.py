@@ -4,6 +4,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt;
 from databaseConnection import localSession
+import binascii
 import crud
 
 
@@ -21,13 +22,19 @@ def get_db():
         db.close()
 
 def hashPassword(password: str):
+    print("Hashing password")
+    print(f"password given is: {password}")
     encoded_password = password.encode("utf-8")
+    print(f"byte password is: {encoded_password}")
     hashed_password = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
+    print(f"hashed password given is: {hashed_password}")
     return hashed_password
 
 
 def validatePassword(entry: str, password: str):
+    password = binascii.unhexlify(password[2:])
     encoded_entry = entry.encode("utf-8")
+
     if bcrypt.checkpw(encoded_entry, password):
         return True
     else:

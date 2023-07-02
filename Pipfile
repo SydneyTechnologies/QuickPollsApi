@@ -9,6 +9,7 @@ bcrypt = "*"
 jose = "*"
 python-jose = "*"
 python-multipart = "*"
+psycopg2 = "*"
 
 [dev-packages]
 

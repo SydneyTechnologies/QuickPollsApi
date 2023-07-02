@@ -11,12 +11,17 @@ def register(userData: schemas.CreateUser, db = Depends(utils.get_db)):
     
     hashed_password = utils.hashPassword(userData.password)
     userData.password = hashed_password
+    print(f"newly hashed password: {userData.password}")
+
     new_user = tables.User(**userData.dict())
-    new_user = crud.add_to_db(new_user, db=db)
+    print(new_user.password)
+    new_user = crud.add_user(new_user, db=db)
+    print(new_user.password)
     return schemas.User.from_orm(new_user)
 
 @router.post("/login", tags=["User"], summary="Log user to quickPolls Application")
 def login(loginData: OAuth2PasswordRequestForm = Depends(OAuth2PasswordRequestForm), db = Depends(utils.get_db)):
+    print(loginData.username, loginData.password)
     user = crud.get_user(loginData.username, db=db)
     if user: 
         if utils.validatePassword(loginData.password, user.password):

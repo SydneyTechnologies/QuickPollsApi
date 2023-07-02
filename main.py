@@ -9,11 +9,11 @@ tables.BaseTable.metadata.create_all(bind=engine)
 DESCRIPTION = "The QuickPolls API is a powerful and interactive platform built with FastAPI that allows users to create and participate in polls, while providing real-time live voting statistics. 🗳️📊"
 app = FastAPI(title="QuickPollsApi", description=DESCRIPTION)
 
-origins = ["http://localhost","http://localhost:3000"]
+origins = ["http://127.0.0.1","http://127.0.0.1:3000"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = origins,  
+    allow_origins = ["*"] ,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

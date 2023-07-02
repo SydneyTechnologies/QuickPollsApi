@@ -57,7 +57,12 @@ def delete_from_db(dbObject: any, db: Session )-> bool:
     
     return False
                 
-
+def add_user(user: tables.User, db:Session):
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+    
 
 def add_to_db(dbObject: any, db: Session)->tables.BaseTable:
     if dbObject:
