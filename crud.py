@@ -6,8 +6,12 @@ import tables
 import schemas
 
 
-def get_user(email:str, db: Session)->tables.User:
+def get_user( email:str, db: Session, )->tables.User:
     user = db.query(tables.User).filter(tables.User.email == email).first()
+    return user
+
+def get_user_byId(userId:str, db: Session)->tables.User:
+    user = db.query(tables.User).filter(tables.User.id == userId).first()
     return user
 
 def get_poll(pollId:str, db: Session)->tables.Poll:
@@ -73,6 +77,6 @@ def add_to_db(dbObject: any, db: Session)->tables.BaseTable:
 
 
 
-def get_db_objects(object: tables.BaseTable,  db: Session)->list[tables.BaseTable]:
+def get_db_objects(object: tables.BaseTable, db: Session)->list[tables.BaseTable]:
     results = db.query(object).all()
     return results

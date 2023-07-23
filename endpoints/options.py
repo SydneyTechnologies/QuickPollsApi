@@ -27,3 +27,4 @@ def viewOption(optionId: str, db = Depends(utils.get_db)):
     if option: 
         return schemas.Options.from_orm(option)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+

@@ -4,6 +4,16 @@ import schemas, crud, utils, tables
 
 router = APIRouter()
 
+
+@router.get("/me", tags=["User"], summary="Get current user details")
+def currentUser(user = Depends(utils.get_current_user)):
+    return user
+
+@router.get("/user/{userId}", tags=["User"], summary="Get current user by Id")
+def getUser(userId: str, db = Depends(utils.get_db)):
+    user = crud.get_user_byId(userId=userId, db=db)
+    return user
+
 @router.post("/register/", tags=["User"], summary="Register a new user")
 def register(userData: schemas.CreateUser, db = Depends(utils.get_db)):
     if crud.get_user(userData.email, db=db):

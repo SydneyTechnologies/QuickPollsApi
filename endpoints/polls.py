@@ -4,6 +4,21 @@ import schemas, crud, utils, tables
 
 router = APIRouter()
 
+@router.get("/polls/search", tags=["Poll"], summary="Search polls by question")
+def searchPolls(question:str = None, db= Depends(utils.get_db)):
+    query = db.query(tables.Poll)
+
+    # Apply filters based on the provided query parameters
+    if question:
+        query = query.filter(tables.Poll.question.ilike(f"%{question}%"))
+
+    # if author:
+    #     query = query.filter(tables.Poll.author.ilike(f"%{author}%"))
+
+    # Execute the query and return the results
+    results = query.all()
+    return results
+
 @router.post("/polls", tags=["Poll"], summary="Create a poll for this user")
 def createPoll(pollData: schemas.CreatePoll, user: tables.User = Depends(utils.get_current_user), db = Depends(utils.get_db)):
     poll = pollData.copy()
@@ -48,3 +63,18 @@ def listPolls(db = Depends(utils.get_db)):
         return [ schemas.Poll.from_orm(poll) for poll in polls]
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    
+
+
+@router.get("/polls/{id}", tags=["Poll"], summary="View specific poll data")
+def getPoll(id:str, db = Depends(utils.get_db), user: tables.User = Depends(utils.get_current_user)):
+    poll = crud.get_poll(id, db)
+    if poll: 
+        return schemas.Poll.from_orm(poll)
+
+        # if user.id == poll.owner_id:
+        #     return schemas.Poll.from_orm(poll)
+        # else:
+        #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    
